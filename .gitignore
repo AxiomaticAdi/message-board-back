@@ -5,6 +5,9 @@
 dist
 dist-ssr
 
+# Keys
+firebase-admin-sdk-key.json
+
 # dependencies
 /node_modules
 /.pnp
