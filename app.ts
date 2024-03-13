@@ -19,27 +19,6 @@ type Message = {
 	content: string;
 };
 
-const messages: Message[] = [
-	{
-		id: 1,
-		username: "testUser",
-		timestamp: new Date().toISOString(),
-		content: "Hello, World!",
-	},
-	{
-		id: 2,
-		username: "testUser2",
-		timestamp: new Date().toISOString(),
-		content: "Goodbye, World!",
-	},
-	{
-		id: 3,
-		username: "testUser3",
-		timestamp: new Date().toISOString(),
-		content: "So long, World!",
-	},
-];
-
 // Initialize Firebase Admin
 var databaseAdmin = require("firebase-admin");
 var serviceAccount = require("./firebase-admin-sdk-key.json");
@@ -51,30 +30,6 @@ databaseAdmin.initializeApp({
 });
 
 const realtimeDb = databaseAdmin.database();
-
-app.get("/test-realtime-db-write", (req: Request, res: Response) => {
-	const ref = realtimeDb.ref("testPath");
-	ref
-		.set(messages)
-		.then(() => res.send("Data written successfully to Realtime Database."))
-		.catch((error: admin.FirebaseError) => {
-			console.error("Error writing to Realtime Database:", error);
-			res.status(500).send("Error writing to Realtime Database");
-		});
-});
-
-app.get("/test-realtime-db-read", (req: Request, res: Response) => {
-	const ref = realtimeDb.ref("testPath");
-	ref
-		.once("value")
-		.then((snapshot: admin.database.DataSnapshot) => {
-			res.json(snapshot.val());
-		})
-		.catch((error: admin.FirebaseError) => {
-			console.error("Error reading from Realtime Database:", error);
-			res.status(500).send("Error reading from Realtime Database");
-		});
-});
 
 // Return messages
 app.get("/", (req: Request, res: Response) => {
